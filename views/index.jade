@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  style.
+    .container {
+      width: 100px;
+      height: 100px;
+    }
+    form {
+      border: 1px solid red;
+    }
+    input{
+      width: 100px;
+      height: 100px;
+    }
+  script(src="/javascripts/lib/jquery-2.1.1.min.js")
+  script(type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js")
+  script(type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js")
+  script(type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js")
+  .container
+    form#uploadFile(enctype="multipart/form-data")
+      input(type="file" name="inputFile")
+  script#editor(type="text/plain")
+  script.
+    var editor = new UE.ui.Editor({initialFrameHeight:400});
+    editor.render("editor");
+    $('.container').change(function() {
+      var formData = new FormData($('#uploadFile')[0]);
+      console.log(formData)
+      $.ajax({
+        type: 'post',
+        url: '/upload/uploadFile',
+        data: formData,
+        dataType: 'json',
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+          console.log(data)
+        }
+      })
+    })
