@@ -15,7 +15,7 @@ router.get('/ueditor', (req, res) => {
 
 router.post('/ueditor', (req, res) => {
     if (req.query.action === 'uploadimage') {
-        console.log('上传图片');
+        //console.log('上传图片');
         //var form = new formidable.IncomingForm();
         //form.uploadDir = __dirname.split('/routes')[0] + '/public/images/upload/';
         //form.keepExtensions = true; //保留后缀

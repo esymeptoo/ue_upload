@@ -21,7 +21,7 @@ block content
     form#uploadFile(enctype="multipart/form-data")
       input(type="file" name="inputFile")
   script#editor(type="text/plain")
-  img(src="/images/upload/upload_1493699132527.png")
+  button.get 获取
   script.
     var editor = new UE.ui.Editor({initialFrameHeight:400});
     editor.render("editor");
@@ -41,4 +41,7 @@ block content
           console.log(data)
         }
       })
+    })
+    $('.get').click(function() {
+      console.log(editor.getContent());
     })
