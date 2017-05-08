@@ -5,8 +5,10 @@ const path = require('path'),
     os = require('os');
 const Busboy = require('busboy');
 const formidable = require('formidable');
+const IMG_PUBLIC_PATH = '/';          //public下一级目录
+const FILE_PUBLIC_PATH = '/word/';          //public下一级目录
 
-router.post('/uploadFile',function(req,res){
+router.post('/uploadImages',function(req,res){
     var form = new formidable.IncomingForm();
     form.uploadDir = __dirname.split('/routes')[0] + '/public/';
     form.keepExtensions = true; //保留后缀
@@ -16,21 +18,24 @@ router.post('/uploadFile',function(req,res){
             console.log(error.message);
             return;
         }
-
         var type_of_image = files.inputFile.type;
-        console.log(type_of_image)
-        const last_name = type_of_image.split('/ms')[1];
+        //const last_name = type_of_image.split('/ms')[1];
+        //if (last_name.length == 0) {
+        //    res.json({result: 2});
+        //    return;
+        //}
+        const last_name = type_of_image.split('/')[1];
         if (last_name.length == 0) {
             res.json({result: 2});
             return;
         }
         //新文件名
-        var saveName = 'upload_' + (new Date()).getTime() + '.doc';
+        var saveName = 'upload_' + (new Date()).getTime() + '.' + last_name;
         //保存地址
         var savePath = form.uploadDir + saveName;
         fs.renameSync(files.inputFile.path, savePath);
         console.log(savePath);
-        res.json({result: 1});
+        res.json({image: IMG_PUBLIC_PATH + saveName});
     })
     //console.log('正在上传文件');
     //var busboy = new Busboy({ headers: req.headers });
@@ -57,5 +62,30 @@ router.post('/uploadFile',function(req,res){
     //req.pipe(busboy);
 });
 
+router.post('/uploadFiles',function(req,res){
+    var form = new formidable.IncomingForm();
+    form.uploadDir = __dirname.split('/routes')[0] + '/public/word/';
+    form.keepExtensions = true; //保留后缀
+    form.maxFieldsSize = 2 * 1024; //文件大小
+    form.parse(req, function (error, fields, files) {
+        if (error) {
+            console.log(error.message);
+            return;
+        }
+        var type_of_image = files.inputFile.type;
+        const last_name = type_of_image.split('/ms')[1];
+        console.log(last_name)
+        if (last_name.length == 0) {
+            res.json({result: 'error'});
+            return;
+        }
+        //新文件名
+        var saveName = 'upload_' + (new Date()).getTime() + '.doc';
+        //保存地址
+        var savePath = form.uploadDir + saveName;
+        fs.renameSync(files.inputFile.path, savePath);
+        res.json({fileName: FILE_PUBLIC_PATH + saveName});
+    })
+});
 
 module.exports = router;

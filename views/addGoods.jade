@@ -1,0 +1,196 @@
+extends ./layout
+block content
+    style.
+        #editor1 {
+            opacity: 0.9;
+        }
+        .edit-container {
+            position: fixed;
+            bottom: 50px;
+            width: 100%;
+            height: 40px;
+            background-color: #e7e7e7;
+            text-align: center;
+            padding-top: 10px;
+            left: 0;
+        }
+        .save {
+            background-color: #726dff;
+            width: 100px;
+            height: 30px;
+            border-width: 0;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+        }
+        .editor {
+            background-color: #726dff;
+            width: 100px;
+            height: 30px;
+            border-width: 0;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .showResult {
+            position: fixed;
+            margin: auto;
+            top: 60px;
+            left: 0;
+            right: 0;
+            width: 150px;
+            border: 1px solid #dedede;
+            border-radius: 4px;
+            height: 30px;
+            box-shadow: 0 0 3px 1px #dbdcdd;
+            font-size: 1.2rem;
+            font-family: 黑体;
+            line-height: 30px;
+            opacity: 0;
+            text-align: center;
+            background-color: orange;
+            color: white;
+        }
+        .word {
+            display: inline-block;
+        }
+        .price, .number {
+            width: 100px;
+            height: 30px;
+            font-size: 17px;
+            display: inline-block;
+            margin-right: 20px;
+            border-width: 0;
+            /*border-radius: 2px;*/
+            box-shadow: 1px 1px 10px 1px #e7e7e7, 1px 1px 1px 1px #f0e1ff;
+            margin-bottom: 20px;
+            text-indent: 10px;
+        }
+        .cover-wall {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .img-container {
+            width: 140px;
+            height: 140px;
+            padding: 10px;
+            border: 1px solid #e7e7e7;
+            border-radius: 10px;
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px;
+        }
+        .img-container img {
+            width: 100%;
+            height: 100%;
+        }
+        .operate {
+            position: absolute;
+            bottom: 0;
+            height: 24px;
+            line-height: 24px;
+            color: white;
+            width: 140px;
+            margin-bottom: 10px;
+            text-align: center;
+            background-color: rgba(1,1,1,.4);
+        }
+        .operate:hover {
+            cursor: pointer;
+        }
+        .upload {
+            width: 140px;
+            height: 140px;
+            border: 1px solid red;
+            position: absolute;
+            z-index: 10;
+            opacity: 0;
+        }
+
+
+
+        .file-wall {
+            width: 60px;
+            height: auto;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .file-wall .upload {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            z-index: 10;
+            opacity: 0;
+        }
+        .file-container {
+            width: 60px;
+            height: 60px;
+            padding: 10px;
+            border: 1px solid #e7e7e7;
+            border-radius: 10px;
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .file-container img {
+            width: 100%;
+            height: 100%;
+        }
+        .file_list img {
+            width: 18px;
+            height: 18px;
+        }
+        .file_list img:hover {
+            cursor: pointer;
+        }
+        .fileName {
+            color: grey;
+            display: inline-block;
+            vertical-align: top;
+        }
+        #download {
+            border-width: 0;
+            background-color: orange;
+            border-radius: 4px;
+            color: white;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+        }
+        @media screen and (max-width: 1000px) {
+            .addGoods-content {
+                width: 1000px;
+            }
+        }
+
+    p.addGoods-title 文件上传
+    div.addGoods-content
+            label 上传图片(.png, .jpg, .jpeg, .gif...):
+            .cover-wall
+                .img-container.choose-container
+                    form#img-upload(enctype="multipart/form-data")
+                        input.upload(type="file" class="inputFile" name="inputFile")
+                        img.toolUpload(src="/images/addPic.png")
+            label 添加文件(仅支持 .doc结尾文件):
+                .file-wall
+                    .file-container
+                        form#file-upload(enctype="multipart/form-data")
+                            input.upload(type="file" class="inputFile" name="inputFile")
+                            img.toolUpload(src="/images/addPic.png")
+            | <br/>
+            .file_list
+            button#download 下载该文件
+            script(id="editor1" type="text/plain" name="content")
+    p.edit-container
+        button.save 保存
+    div.showResult
+        div.word 请补全信息
+    script.
+        var editor = new UE.ui.Editor({initialFrameHeight: 400});
+        editor.render("editor1");
+    script(src="/javascripts/goods.js")
