@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const Fs = require('./modules/fs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -11,7 +12,17 @@ var upload = require('./routes/upload');
 var ueditor = require('./routes/ueditor');
 var deleteFile = require('./routes/deleteFile');
 
+//注册观察者
+Fs.readDirDeepSync(path.resolve(__dirname, 'observers')).forEach((info) => {
+  if (info.type === 'JS') {
+    require(info.path);
+  }
+});
+
 var app = express();
+
+app.enable('trust proxy');
+app.set('app path', __dirname);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -72,15 +72,13 @@ router.post('/uploadFiles',function(req,res){
             console.log(error.message);
             return;
         }
-        var type_of_image = files.inputFile.type;
-        const last_name = type_of_image.split('/ms')[1];
-        console.log(last_name)
+        var last_name = (files.inputFile.type.indexOf('application/msword') !== -1) ? '.doc' : '.docx';
         if (last_name.length == 0) {
             res.json({result: 'error'});
             return;
         }
         //新文件名
-        var saveName = 'upload_' + (new Date()).getTime() + '.doc';
+        var saveName = 'upload_' + (new Date()).getTime() + last_name;
         //保存地址
         var savePath = form.uploadDir + saveName;
         fs.renameSync(files.inputFile.path, savePath);

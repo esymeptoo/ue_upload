@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const eventEmitter = require('../modules/deleteFiles');
+const { getEventEmitter } = require('../modules/observer/server');
+const observer = getEventEmitter('task');
 
 router.post('/', (req, res) => {
-    eventEmitter.emit('delete:file', req.body.src);
+    observer.emit('task:deleteFile', req.body.src);
     res.send('ok');
 });
 module.exports = router;

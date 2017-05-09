@@ -18,7 +18,7 @@ $(function() {
         //获取要删除的图片名  注意应该是public下一层路径开始
         let src = $(this).prev().text().trim();
         const params = {
-            src: src,
+            src: '/word/' + src,
         };
         $.post('/deleteFile', params);
         $(this).prev().remove();
@@ -38,7 +38,8 @@ $(function() {
     $('.cover-wall').on('change', '.choose-container', function(e){
         const c = confirm('确定上传该图片');
         if (c) {
-            var le=$('.inputFile').val().split('.')[1];
+            var le = $(this).find('.inputFile').val().split('.')[1];
+            alert(le)
             if(le=='jpeg'||le=='png'||le=='gif'||le=='jpg'){
                 var formData = new FormData($('#img-upload')[0]);
                 $.ajax({
@@ -83,10 +84,11 @@ $(function() {
             //如果已经上传了文件 手动删除
             alert('请删除已上传文件');
         } else {
-            const c = confirm('确定上传该图片');
+            const c = confirm('确定上传该文件');
             if (c) {
                 var le = $(this).find('.inputFile').val().split('.')[1];
-                if(le =='doc' || le == 'docs'){
+                alert(le);
+                if(le =='doc' || le == 'docx'){
                     var formData = new FormData($('#file-upload')[0]);
                     $.ajax({
                         type: 'post',
@@ -113,7 +115,7 @@ $(function() {
                         }
                     })
                 }else{
-                    showResult('图片格式不正确');
+                    showResult('文件格式不正确');
                 }
             } else {
                 $('.choose-container').remove();
